@@ -16,12 +16,16 @@ public class CommandParam {
     /**
      * The unnamed token of the command, which is the part right after
      * command word and before the first prefix.
+     *
+     * For example, `add John Doe` -> `John Doe`
      */
     private final Optional<String> unnamedValue;
 
     /**
      * The named token of the command, which is the part right after
      * one prefix and before the next prefix.
+     *
+     * For example, `add /name John Doe` -> `John Doe`
      */
     private final Optional<Map<String, Optional<String>>> namedValues;
 
@@ -176,6 +180,8 @@ public class CommandParam {
 
     /**
      * Gets the unnamed token of the command or throws an exception.
+     *
+     * TODO: fix documentation
      */
     public String getUnnamedValueOrThrow(String message) throws ParseException {
         if (unnamedValue.isEmpty()) {
