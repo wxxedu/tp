@@ -51,7 +51,7 @@ public class DeleteCommand<T extends Item> implements Command {
             toDelete = getManagerFunction.get(model).getItem(itemIndex);
         } catch (IndexOutOfBoundException e) {
             throw new CommandException(String.format(
-                    "Please enter a valid index: %s",
+                    "Please enter a valid index: %s.",
                     e.getMessage()
             ));
         }
