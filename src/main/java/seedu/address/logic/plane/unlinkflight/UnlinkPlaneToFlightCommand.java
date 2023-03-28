@@ -9,7 +9,6 @@ import seedu.address.logic.core.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.flight.Flight;
 import seedu.address.model.link.exceptions.LinkException;
-import seedu.address.model.plane.FlightPlaneType;
 import seedu.address.model.plane.Plane;
 
 /**

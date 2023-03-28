@@ -18,7 +18,6 @@ import seedu.address.model.location.FlightLocationType;
 import seedu.address.model.location.Location;
 import seedu.address.model.pilot.FlightPilotType;
 import seedu.address.model.pilot.Pilot;
-import seedu.address.model.plane.FlightPlaneType;
 import seedu.address.model.plane.Plane;
 import seedu.address.storage.json.JsonAdaptedModel;
 

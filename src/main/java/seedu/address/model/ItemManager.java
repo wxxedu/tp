@@ -149,7 +149,7 @@ public class ItemManager<T extends Item> implements
     public Optional<T> getItemOptional(int index) {
         try {
             return Optional.of(items.get(index));
-        } catch (IndexOutOfBoundException e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }

@@ -14,7 +14,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyItemManager;
 import seedu.address.model.exception.IndexOutOfBoundException;
 import seedu.address.model.flight.Flight;
-import seedu.address.model.plane.FlightPlaneType;
 import seedu.address.model.plane.Plane;
 
 
