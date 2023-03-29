@@ -8,12 +8,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import seedu.address.model.Model;
 import seedu.address.model.flight.Flight;
 import seedu.address.model.item.Item;
+import seedu.address.model.link.Link;
+import seedu.address.model.link.MultiLink;
 import seedu.address.model.link.SingleLink;
+import seedu.address.model.link.exceptions.LinkException;
 
 /**
  * Represents a plane in the Wingman app.
@@ -21,11 +25,12 @@ import seedu.address.model.link.SingleLink;
 public class Plane implements Item {
     private static final String AGE_STRING = "Age";
     private static final String AVAILABILITY_STRING = "Status";
+    private static Logger logger = Logger.getLogger("Plane");
     private final String id;
     private final String model;
     private final int age;
     private boolean isAvailable;
-    private final Set<SingleLink<Flight>> flightLinks;
+    private final MultiLink<Plane, Flight> flightLink;
 
     /**
      * Creates a plane with a random id.
@@ -33,16 +38,16 @@ public class Plane implements Item {
      * @param model       the model of the plane.
      * @param age         the age of the plane.
      * @param isAvailable the availability of the plane.
-     * @param flightLinks the flight links of the plane.
+     * @param flightLink  the flight link of the plane.
      */
     public Plane(
             String model,
             int age,
             boolean isAvailable,
-            Set<SingleLink<Flight>> flightLinks
+            MultiLink<Plane, Flight> flightLink
     ) {
         this(UUID.randomUUID().toString(), model, age, isAvailable,
-                flightLinks
+                flightLink
         );
     }
 
@@ -58,13 +63,13 @@ public class Plane implements Item {
             String model,
             int age,
             boolean isAvailable,
-            Set<SingleLink<Flight>> flightLinks
+            MultiLink<Plane, Flight> flightLink
     ) {
         this.model = model;
         this.age = age;
         this.id = id;
         this.isAvailable = isAvailable;
-        this.flightLinks = flightLinks;
+        this.flightLink = flightLink;
     }
 
     /**
@@ -128,99 +133,12 @@ public class Plane implements Item {
                        : "Unavailable";
     }
 
-    /**
-     * Gets the flight links of the plane.
-     *
-     * @param modelOptional empty if the user does not want to update back
-     *                      recursively. If this is not empty, then the
-     *                      flights would be updated such that they contain
-     *                      the information of this plane.
-     * @param removeInvalid whether to remove invalid links.
-     * @return the flight links of the plane.
-     */
-    public List<Flight> getFlights(
-            Optional<Model> modelOptional,
-            boolean removeInvalid
-    ) {
-        Set<SingleLink<Flight>> toBeRemoved = new HashSet<>();
-        List<Flight> flights = mapLinksToItems(flightLinks, toBeRemoved)
-                                       .collect(Collectors.toList());
-        if (removeInvalid) {
-            flightLinks.removeAll(toBeRemoved);
-        }
-        if (modelOptional.isPresent()) {
-            Model model = modelOptional.get();
-            flights.forEach(flight -> flight.setPlane(model, this, false));
-        }
-        return flights;
+    public MultiLink<Plane, Flight> getFlightLink() {
+        return this.flightLink;
     }
 
-    public List<Flight> getFlights(boolean removeInvalid) {
-        return getFlights(Optional.empty(), removeInvalid);
-    }
-
-    public List<Flight> getFlights() {
-        return getFlights(true);
-    }
-
-    public void addFlight(
-            Model model,
-            Flight flight,
-            boolean recursive
-    ) {
-        SingleLink<Flight> link = flightLink(model, flight.getId());
-        flightLinks.add(link);
-        if (recursive) {
-            flight.setPlane(model, this, false);
-        }
-    }
-
-    /**
-     * Adds this plane to a flight task and asks the flight to link back to
-     * this plane.
-     *
-     * @param model  the model of the app.
-     * @param flight the flight to link to.
-     */
-    public void addFlight(
-            Model model,
-            Flight flight
-    ) {
-        addFlight(model, flight, true);
-    }
-
-    /**
-     * Removes this plane from a flight task.
-     *
-     * @param model     the model of the app.
-     * @param flight    the flight to unlink from.
-     * @param recursive whether to unlink back to this plane. If this is true,
-     *                  then the plane will be removed from the flight.
-     */
-    public void removeFlight(
-            Model model,
-            Flight flight,
-            boolean recursive
-    ) {
-        SingleLink<Flight> link = flightLink(model, flight.getId());
-        flightLinks.remove(link);
-        if (recursive) {
-            flight.removePlane(model, this, false);
-        }
-    }
-
-    /**
-     * Removes this plane from a flight task and asks the flight to unlink
-     * back to this plane.
-     *
-     * @param model  the model of the app.
-     * @param flight the flight to unlink from.
-     */
-    public void removeFlight(
-            Model model,
-            Flight flight
-    ) {
-        removeFlight(model, flight, true);
+    public void addFlight(Flight flight) throws LinkException {
+        this.flightLink.link(flight);
     }
 
     @Override
