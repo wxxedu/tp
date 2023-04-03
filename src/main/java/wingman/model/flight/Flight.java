@@ -10,6 +10,7 @@ import wingman.model.crew.Crew;
 import wingman.model.crew.FlightCrewType;
 import wingman.model.item.Item;
 import wingman.model.link.Link;
+import wingman.model.link.exceptions.LinkException;
 import wingman.model.location.FlightLocationType;
 import wingman.model.location.Location;
 import wingman.model.pilot.FlightPilotType;
@@ -119,6 +120,21 @@ public class Flight implements Item {
      */
     public Link<FlightLocationType, Location, ReadOnlyItemManager<Location>> getLocationLink() {
         return locationLink;
+    }
+
+    /**
+     * Setting the pilot of this flight. If there is already one for this
+     * type, then we just replace that pilot out.
+     *
+     * @param type  the type of work that the pilot is doing on the flight.
+     * @param pilot the pilot assigned to the type of work.
+     * @throws LinkException if the key is not valid.
+     */
+    public void setPilot(
+            FlightPilotType type,
+            Pilot pilot
+    ) throws LinkException {
+        pilotLink.putRevolve(type, pilot);
     }
 
     @Override

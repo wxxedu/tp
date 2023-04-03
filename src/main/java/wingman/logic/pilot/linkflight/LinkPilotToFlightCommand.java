@@ -60,7 +60,7 @@ public class LinkPilotToFlightCommand implements Command {
     public CommandResult execute(Model model) throws CommandException {
         try {
             for (Map.Entry<FlightPilotType, Pilot> entry : pilots.entrySet()) {
-                flight.pilotLink.putRevolve(entry.getKey(), entry.getValue());
+                flight.setPilot(entry.getKey(), entry.getValue());
                 entry.getValue().setUnavailable();
             }
         } catch (LinkException e) {
