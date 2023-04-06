@@ -355,219 +355,7 @@ For instance, Junior Crew Member Mary will have an index number of 1 in the imag
 
 The commands in this section are only available in the specified modes.
 
-#### **1. Linking a resource to a location**
-
-Use this command when you wish to link a resource entity to a location (e.g. a pilot that has just landed in Tokyo can
-have their location set as Tokyo, so you are able to identify the correct pilots when filtering the pilots by location).
-
-```
-linklocation /lo location-index /resource-prefix resource-index
-```
-
-Required prefixes:
-
-- `/resource-prefix`: the prefix of the type of resource entity to be linked.
-
-Required input values:
-
-- `location-index`: the index of the location the resource entity is to be linked to.
-- `resource-index`: the index of the resource to be linked to a location.
-
-This command is **ONLY** available in the following modes: `crew`, `flight`, `pilot` and `plane`.
-
-This commands links an entity of the current resource mode to a specified location entity in Wingman's database.
-
-For example, if you are currently in the `plane` mode, then this command will link a `plane` to a specified location
-entity in the database.
-
-If the command is valid, Wingman will return a response confirming the link that has been made, as shown below:
-
-<img src="images/ug/UG-linklocation.jpg" width="2032">
-
-<div style="border: 0px solid #ccc; background-color: #d9edff; color: darkblue; padding: 10px; margin-bottom: 10px;">
-<strong>Note:</strong> The prefixes vary across different modes. Refer to the examples below for more clarity.
-</div>
-
-###### Crew mode: `linklocation /lo location-index /cr crew-index`
-
-Required prefixes:
-
-- `/lo`: the index of the location to which the crew is to be linked to.
-- `/cr`: the index of the crew to be linked.
-
-Example:
-
-```
-Input:
-linklocation /lo 1 /cr 1
-
-Output: 
-Linked Senior Crew Member John Smith to Tokyo.
-```
-
-###### Flight mode: `linklocation /fl flight-index /from location-index /to location-index`
-
-Required prefixes:
-
-- `/fl`: the index of the flight to be linked.
-- `/from`: the index of the location to which the flight is to be linked as departing from.
-- `/to`: the index of the location to which the flight is to be linked as arriving at.
-
-Example:
-
-```
-Input:
-linklocation /fl 1 /from 1 /to 2
-
-Output: 
-Linked Tokyo, Paris to SQ230.
-```
-
-###### Pilot mode: `linklocation /lo location-index /pi pilot-index`
-
-Required prefixes:
-
-- `/lo`: the index of the location to which the pilot is to be linked to.
-- `/pi`: the index of the pilot to be linked.
-
-Example:
-
-```
-Input:
-linklocation /lo 1 /pi 1
-
-Output: 
-Linked Cadet Amelia Earhart to Tokyo.
-```
-
-###### Plane mode: `linklocation /lo location-index /pl plane-index`
-
-Prefixes:
-
-- `/lo`: the index of the location to which the plane is to be linked to.
-- `/pl`: the index of the plane to be linked.
-
-Example:
-
-```
-Input:
-linklocation /lo 1 /pl 1
-
-Output: 
-Linked A380 to Tokyo.
-```
-
-[Back to contents](#table-of-contents)
-
-<div style="page-break-after: always;"></div>
-
-#### **2. Unlinking a resource from a location**
-
-Use this command when you wish to unlink a resource entity from a location (e.g. when a plane has departed from Tokyo,
-you can unlink it from Tokyo, so you get the correct information when filtering planes by location).
-
-```
-unlinklocation /lo location-index /resource-prefix resource-index
-```
-
-Required prefixes:
-
-- `/resource-prefix`: the prefix of the type of resource entity to be unlinked.
-
-Required input values:
-
-- `location-index`: the index of the location the resource entity is to be unlinked from.
-- `resource-index`: the index of the resource to be unlinked from a location.
-
-This command is **ONLY** available in the following modes: `crew`, `flight`, `pilot` and `plane`.
-
-This commands unlinks an entity of the current resource mode to a specified location entity in Wingman's database.
-
-For example, if you are currently in the `plane` mode, then this command will unlink a `plane` from the specified
-location entity in the database.
-
-If the command is valid, Wingman will return a response confirming the link that has been undone, as shown below:
-
-<img src="images/ug/UG-unlinklocation.jpg" width="2032">
-
-<div style="border: 0px solid #ccc; background-color: #d9edff; color: darkblue; padding: 10px; margin-bottom: 10px;">
-<strong>Note:</strong>s The prefixes vary across different modes. Refer to the examples below for more clarity.
-</div>
-
-###### Crew mode: `unlinklocation /lo location-index /cr crew-index`
-
-Required prefixes:
-
-- `/lo`: the index of the location from which the crew is to be unlinked from.
-- `/cr`: the index of the crew to be unlinked.
-
-Example:
-
-```
-Input:
-unlinklocation /lo 1 /cr 1
-
-Output: 
-Unlinked Senior Crew Member John Smith from Tokyo.
-```
-
-###### Flight mode: `unlinklocation /fl flight-index /from departure-index /to arrival-index`
-
-Required prefixes:
-
-- `/fl`: the index of the flight to be unlinked.
-- `/from`: the index of the departure location from which the flight is to be unlinked.
-- `/to`: the index of the arrival location from which the flight is to be unlinked.
-
-Example:
-
-```
-Input:
-unlinklocation /fl 1 /from 1 /to 1
-
-Output: 
-Unlinked Tokyo, Paris from SQ230.
-```
-
-###### Pilot mode: `unlinklocation /lo location-index /pi pilot-index`
-
-Required prefixes:
-
-- `/lo`: the index of the location from which the pilot is to be unlinked from.
-- `/pi`: the index of the pilot to be unlinked.
-
-Example:
-
-```
-Input:
-unlinklocation /lo 1 /pi 1
-
-Output: 
-Unlinked Cadet Amelia Earhart from Tokyo.
-```
-
-###### Plane mode: `unlinklocation /lo location-index /pl plane-index`
-
-Prefixes:
-
-- `/lo`: the index of the location from which the plane is to be unlinked from.
-- `/pl`: the index of the plane to be unlinked.
-
-Example:
-
-```
-Input:
-unlinklocation /lo 1 /pl 1
-
-Output: 
-Unlinked A380 from Tokyo.
-```
-
-[Back to contents](#table-of-contents)
-
-<div style="page-break-after: always;"></div>
-
-#### **3. Linking a resource to a flight**
+#### **1. Linking a resource to a flight**
 
 Use this command when you wish to link a resource entity to a flight (e.g. when assigning pilots to flights,
 you can use this command to link each pilot to a flight).
@@ -680,7 +468,7 @@ Linked A380 to SQ230.
 
 <div style="page-break-after: always;"></div>
 
-#### **4. Unlinking a resource from a flight**
+#### **2. Unlinking a resource from a flight**
 
 Use this command when you wish to unlink a resource entity from a flight (e.g. when a flight has been cancelled,
 you can use this command to unlink the crew members from the flight).
@@ -790,7 +578,7 @@ Output:
 Unlinked A380 from SQ230.
 ```
 
-#### **5. Checking a resource's availability**
+#### **3. Checking a resource's availability**
 
 Use this command when you wish to check a resource's availability (i.e. when deciding to use a resource for flight, you
 can use this command to check whether the resource is already currently linked to another flight).
@@ -860,8 +648,6 @@ A380 is available.
 |-----------------|---------------------------------------------------------------------|--------------------------------|
 | Add             | `add /prefix_A value_A /prefix_B value_B`                           | `add /n Bob /r 2`              |
 | Delete          | `delete resource-index`                                             | `delete 1`                     |
-| Link location   | `linklocation /lo location-index /resource-prefix resource-index`   | `linklocation /lo 0 /cr 1`     |
-| Unlink location | `unlinklocation /lo location-index /resource-prefix resource-index` | `unlinklocation /lo 0 /fl 1`   |
 | Link flight     | `linkflight /fl flight-index /resource-prefix resource-index `      | `linkflight /fl 0 /pf 1 /pm 2` |
 | Unlink flight   | `unlinkflight /fl flight-index /resource-prefix resource-index `    | `unlinkflight /fl 0 /pu 1`     |
 | Check           | `check /id resource-index`                                          | `check /id 0`                  |
