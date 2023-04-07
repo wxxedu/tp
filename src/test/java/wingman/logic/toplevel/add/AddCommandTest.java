@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import wingman.logic.core.CommandResult;
@@ -22,13 +23,20 @@ import wingman.model.item.exceptions.DuplicateItemException;
  */
 @ExtendWith(MockitoExtension.class)
 public class AddCommandTest {
+    @Mock
+    AddFunction<Item> addFunction;
+    @Mock
+    Item item;
+    @Mock
+    Model model;
+
     @Test
     public void testExecute_doesNotThrow() throws CommandException {
-        AddFunction<Item> addFunction = mock(AddFunction.class);
-        Item item = mock(Item.class);
-        Model model = mock(Model.class);
-
-        AddCommand<Item> addCommand = new AddCommand<>(addFunction, item, "Item");
+        AddCommand<Item> addCommand = new AddCommand<>(
+                addFunction,
+                item,
+                "Item"
+        );
         doNothing().when(addFunction).add(eq(model), eq(item));
 
         CommandResult result = addCommand.execute(model);
@@ -39,18 +47,19 @@ public class AddCommandTest {
 
     @Test
     public void testExecute_throwsDuplicateItemException() throws CommandException {
-        AddFunction<Item> addFunction = mock(AddFunction.class);
-
-        Item item = mock(Item.class);
-
-        Model model = mock(Model.class);
-
-        AddCommand<Item> addCommand = new AddCommand<>(addFunction, item, "Item");
-        doThrow(new DuplicateItemException(Item.class)).when(addFunction).add(eq(model), eq(item));
+        AddCommand<Item> addCommand = new AddCommand<>(
+                addFunction,
+                item,
+                "Item"
+        );
+        doThrow(new DuplicateItemException(Item.class))
+                .when(addFunction)
+                .add(eq(model), eq(item));
 
         CommandResult result = addCommand.execute(model);
         verify(addFunction).add(eq(model), eq(item));
 
-        assertTrue(result.getFeedbackToUser().contains("Duplication not allowed."));
+        assertTrue(result.getFeedbackToUser()
+                         .contains("Duplication not allowed."));
     }
 }
